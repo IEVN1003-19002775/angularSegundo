@@ -23,14 +23,14 @@ export class ZodiacoComponent implements OnInit {
       dia: ['', [Validators.required, Validators.min(1), Validators.max(31)]],
       mes: ['', [Validators.required, Validators.min(1), Validators.max(12)]],
       anio: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
-      sexo: ['', Validators.required]
+      genero: ['', Validators.required]
     });
   }
 
   datos() {
     if (this.formulario.valid) {
       const { nombre, apaterno, amaterno, dia, mes, anio, sexo } = this.formulario.value;
-      const edad = this.Edad(anio);
+      const edad = this.Edad(anio,mes,dia);
       const animal = this.animalChino(anio);
       const imagenSigno = this.animalImagen(animal);
 
@@ -45,9 +45,17 @@ export class ZodiacoComponent implements OnInit {
     }
   }
 
-  Edad(anio: number): number {
+  Edad(anio: number, mes: number, dia: number): number {
     const fechaActual = new Date();
-    return fechaActual.getFullYear() - anio;
+    const fechaNacimiento = new Date(anio, mes - 1, dia); // Crear fecha de nacimiento
+    let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+    const mesActual = fechaActual.getMonth();
+    const diaActual = fechaActual.getDate();
+    if (mesActual < (mes - 1) || (mesActual === (mes - 1) && diaActual < dia)) {
+      edad--; 
+    }
+  
+    return edad;
   }
 
   animalChino(anio: number): string {
