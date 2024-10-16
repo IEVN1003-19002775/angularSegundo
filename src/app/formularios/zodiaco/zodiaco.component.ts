@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular
   templateUrl: './zodiaco.component.html',
   styles: []
 })
-export class ZodiacoComponent implements OnInit {
+export default class ZodiacoComponent implements OnInit {
   formulario!: FormGroup;
   resultado: any = null;
 
