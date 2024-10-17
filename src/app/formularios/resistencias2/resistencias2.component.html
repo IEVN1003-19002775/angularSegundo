@@ -1,0 +1,72 @@
+
+<h1 class="text-2xl font-bold mb-4 max-w-sm mx-auto">Calculadora de Resistencia</h1>
+<form [formGroup]="formulario" class="max-w-sm mx-auto">
+  <div class="grid grid-cols-1 gap-4">
+    <div>
+      <label for="banda1" class="block font-semibold">Banda 1:</label>
+      <select formControlName="banda1" class="block w-full border rounded px-2 py-1">
+        <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="banda2" class="block font-semibold">Banda 2:</label>
+      <select formControlName="banda2" class="block w-full border rounded px-2 py-1">
+        <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="multiplicador" class="block font-semibold">Multiplicador:</label>
+      <select formControlName="multiplicador" class="block w-full border rounded px-2 py-1">
+        <option *ngFor="let color of multiplicadores" [value]="color.valor">{{ color.nombre }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h3 class="font-semibold">Tolerancia:</h3>
+    <label class="inline-flex items-center">
+      <input type="radio" formControlName="tolerancia" [value]="'oro'" class="mr-2"> Oro (5%)
+    </label>
+    <label class="inline-flex items-center ml-4">
+      <input type="radio" formControlName="tolerancia" [value]="'plata'" class="mr-2"> Plata (10%)
+    </label>
+  </div>
+
+  <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700" type="submit" (click)="calcular()">
+    Calcular
+  </button>
+
+  <button (click)="imprimirTabla()" class="mb-6 bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Imprimir tabla</button>
+
+</form>
+
+<br>
+
+<h3 class="text-xl font-semibold mt-6 max-w-sm mx-auto">Historial de Cálculos</h3>
+<table  *ngIf="historial.length > 0 && tabla" class="table-auto mt-4 max-w-sm mx-auto">
+  <thead class="bg-gray-100">
+    <tr>
+      <th class="px-4 py-2">Color 1</th>
+      <th class="px-4 py-2">Color 2</th>
+      <th class="px-4 py-2">Multiplicador</th>
+      <th class="px-4 py-2">Tolerancia</th>
+      <th class="px-4 py-2">Valor</th>
+      <th class="px-4 py-2">Valor máximo</th>
+      <th class="px-4 py-2">Valor mínimo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let registro of historial">
+      <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color1}">{{ registro.nombre1 }}</td>
+      <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color2}">{{ registro.nombre2 }}</td>
+      <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color3}">{{ registro.nombre3 }}</td>
+      <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color4}">{{ registro.nombre4 }}</td>
+      <td class="border px-4 py-2">{{ registro.resultado }}</td>
+      <td class="border px-4 py-2">{{ registro.valorMax }}</td>
+      <td class="border px-4 py-2">{{ registro.valorMin }}</td>
+    </tr>
+  </tbody>
+</table>
+
