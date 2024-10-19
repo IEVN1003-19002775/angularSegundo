@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './empleados.component.css'
 })
 export default class EmpleadosComponent implements OnInit{
-  /* empleado: any = {
+  empleado: any = {
     matricula: '',
     nombre: '',
     correo: '',
@@ -19,17 +19,17 @@ export default class EmpleadosComponent implements OnInit{
   };
 
   empleados: any[] = [];
-  tabla: boolean = false; */
+  tabla: boolean = false;
 
   ngOnInit() {
 
-    /* const empleadosGuardados = localStorage.getItem('empleados');
+    const empleadosGuardados = localStorage.getItem('empleados');
     if (empleadosGuardados) {
       this.empleados = JSON.parse(empleadosGuardados);
-    } */
+    }
   }
 
-  /* agregarEmpleado() {
+  agregarEmpleado() {
 
     this.empleados.push({ ...this.empleado });
     localStorage.setItem('empleados', JSON.stringify(this.empleados));
@@ -97,5 +97,5 @@ export default class EmpleadosComponent implements OnInit{
     } else {
       alert('Debe ingresar una matrícula.');
     }
-  } */
+  }
 }

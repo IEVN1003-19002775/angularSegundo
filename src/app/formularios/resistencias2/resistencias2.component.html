@@ -34,7 +34,7 @@
     </label>
   </div>
 
-  <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700" type="submit" (click)="calcular()">
+  <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700" type="submit" (click)="guardarCalculo()">
     Calcular
   </button>
 
@@ -63,9 +63,9 @@
       <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color2}">{{ registro.nombre2 }}</td>
       <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color3}">{{ registro.nombre3 }}</td>
       <td class="border px-4 py-2" [ngStyle]="{'background-color': registro.color4}">{{ registro.nombre4 }}</td>
-      <td class="border px-4 py-2">{{ registro.resultado }}</td>
-      <td class="border px-4 py-2">{{ registro.valorMax }}</td>
-      <td class="border px-4 py-2">{{ registro.valorMin }}</td>
+      <td class="border px-4 py-2">{{ calcularResistencia(registro.nombre1, registro.nombre2, registro.nombre3) }} Ohms</td>
+       <td class="border px-4 py-2">{{ calcularValorMaximo(registro.nombre1, registro.nombre2, registro.nombre3, registro.nombre4) }} Ohms</td>
+       <td class="border px-4 py-2">{{ calcularValorMinimo(registro.nombre1, registro.nombre2, registro.nombre3, registro.nombre4) }} Ohms</td>
     </tr>
   </tbody>
 </table>

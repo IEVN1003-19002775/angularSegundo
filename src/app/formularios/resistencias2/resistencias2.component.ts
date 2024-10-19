@@ -130,12 +130,11 @@ export default class Resistencias2Component implements OnInit{
   historial: any[] = [];
   tabla:boolean = false;
 
-  calcular(): void{
+  guardarCalculo(): void {
     const banda1 = this.formulario.get('banda1')?.value;
     const banda2 = this.formulario.get('banda2')?.value;
     const multiplicador = this.formulario.get('multiplicador')?.value;
     const tolerancia = this.formulario.get('tolerancia')?.value;
-
     if (tolerancia == 'oro'){
       this.tolerancia = .05;
       
@@ -146,16 +145,6 @@ export default class Resistencias2Component implements OnInit{
   else {
     this.tolerancia= 0;
   }
-    
-    const valor = (banda1 + banda2) * multiplicador;
-    
-    this.resultado = `${valor}`;
-
-    const valorMax = valor + (valor * this.tolerancia);
-    this.valorMax = valorMax;
-
-    const valorMin = valor - (valor * this.tolerancia);
-    this.valorMin = valorMin;
     this.color1 = this.colorMap[banda1] || banda1;
     this.nombre1 = this.nombres[banda1] || banda1;
     this.color2 = this.colorMap[banda2] || banda2;
@@ -164,21 +153,62 @@ export default class Resistencias2Component implements OnInit{
     this.nombre3 = this.nombresM[multiplicador] || multiplicador;
     this.color4 = this.colorMapT[this.tolerancia] || this.tolerancia;
     this.nombre4 = this.nombresT[this.tolerancia] || this.tolerancia;
-
     this.guardarEnHistorial({
       nombre1: this.nombre1,
       nombre2: this.nombre2,
       nombre3: this.nombre3,
       nombre4: tolerancia,
-      resultado: this.resultado,
-      valorMax: this.valorMax,
-      valorMin: this.valorMin,
       color1: this.color1,
       color2: this.color2,
       color3: this.color3,
       color4: this.color4,
     });
+
   }
+
+    obtenerValorColor(nombre: string): number {
+      const color = this.colores.find(c => c.nombre === nombre);
+      return color ? color.valor : 0;
+    }
+    
+    obtenerValorMultiplicador(nombre: string): number {
+      const multiplicador = this.multiplicadores.find(m => m.nombre === nombre);
+      return multiplicador ? multiplicador.valor : 1;
+    }
+
+    calcularResistencia(banda1: string, banda2: string, multiplicador: string): any {
+      const valorBanda1 = this.obtenerValorColor(banda1);
+      const valorBanda2 = this.obtenerValorColor(banda2);
+      const valorMultiplicador = this.obtenerValorMultiplicador(multiplicador);
+      
+      const valor = (valorBanda1 * 10 + valorBanda2) * valorMultiplicador;
+      return this.resultado = `${valor}`;
+    }
+    
+    calcularValorMaximo(banda1: string, banda2: string, multiplicador: string, tolerancia: string): any {
+      const valorBanda1 = this.obtenerValorColor(banda1);
+      const valorBanda2 = this.obtenerValorColor(banda2);
+      const valorMultiplicador = this.obtenerValorMultiplicador(multiplicador);
+      
+      const valor = (valorBanda1 * 10 + valorBanda2) * valorMultiplicador;
+      const toleranciaValor = tolerancia === 'oro' ? 0.05 : 0.1;
+    
+      const valorMax = valor + (valor * toleranciaValor);
+      return this.valorMax = valorMax;
+    }
+    
+    calcularValorMinimo(banda1: string, banda2: string, multiplicador: string, tolerancia: string): any {
+      const valorBanda1 = this.obtenerValorColor(banda1);
+      const valorBanda2 = this.obtenerValorColor(banda2);
+      const valorMultiplicador = this.obtenerValorMultiplicador(multiplicador);
+      
+      const valor = (valorBanda1 * 10 + valorBanda2) * valorMultiplicador;
+      const toleranciaValor = tolerancia === 'oro' ? 0.05 : 0.1;
+    
+      const valorMin = valor - (valor * toleranciaValor);
+      return this.valorMin = valorMin;
+    }
+    
 
   imprimirTabla() {
     this.tabla = true;
