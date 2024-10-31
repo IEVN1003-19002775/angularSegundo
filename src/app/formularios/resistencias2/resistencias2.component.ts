@@ -135,6 +135,7 @@ export default class Resistencias2Component implements OnInit{
     const banda2 = this.formulario.get('banda2')?.value;
     const multiplicador = this.formulario.get('multiplicador')?.value;
     const tolerancia = this.formulario.get('tolerancia')?.value;
+
     if (tolerancia == 'oro'){
       this.tolerancia = .05;
       
@@ -145,6 +146,7 @@ export default class Resistencias2Component implements OnInit{
   else {
     this.tolerancia= 0;
   }
+  
     this.color1 = this.colorMap[banda1] || banda1;
     this.nombre1 = this.nombres[banda1] || banda1;
     this.color2 = this.colorMap[banda2] || banda2;
@@ -153,6 +155,7 @@ export default class Resistencias2Component implements OnInit{
     this.nombre3 = this.nombresM[multiplicador] || multiplicador;
     this.color4 = this.colorMapT[this.tolerancia] || this.tolerancia;
     this.nombre4 = this.nombresT[this.tolerancia] || this.tolerancia;
+
     this.guardarEnHistorial({
       nombre1: this.nombre1,
       nombre2: this.nombre2,

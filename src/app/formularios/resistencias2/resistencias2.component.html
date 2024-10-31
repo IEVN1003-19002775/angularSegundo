@@ -44,7 +44,7 @@
 
 <br>
 
-<h3 class="text-xl font-semibold mt-6 max-w-sm mx-auto">Historial de Cálculos</h3>
+<h3 *ngIf="tabla" class="text-xl font-semibold mt-6 max-w-sm mx-auto">Historial de Cálculos</h3>
 <table  *ngIf="historial.length > 0 && tabla" class="table-auto mt-4 max-w-sm mx-auto">
   <thead class="bg-gray-100">
     <tr>

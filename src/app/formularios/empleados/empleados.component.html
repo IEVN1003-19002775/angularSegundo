@@ -73,7 +73,11 @@
       Imprimir tabla
     </button>
   
-    <table *ngIf="tabla" class="min-w-full bg-white rounded-lg shadow-md">
+
+    <div *ngIf="tabla" class="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Registro de Empleados</h2>
+    
+      <table class="table-auto w-full text-left bg-white shadow-md rounded-lg mb-6">
         <button
               (click)="modificarEmpleado()"
               class="mr-2 bg-yellow-400 text-white py-1 px-3 rounded hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-600"
@@ -86,26 +90,114 @@
             >
               Eliminar
             </button>
-      <thead>
-        <tr class="bg-gray-200">
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Matrícula</th>
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Nombre</th>
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Correo</th>
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Edad</th>
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Horas Trabajadas</th>
-          <th class="py-2 px-4 text-left font-semibold text-gray-700">Pago Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of empleados" class="border-t">
-          <td class="py-2 px-4">{{ emp.matricula }}</td>
-          <td class="py-2 px-4">{{ emp.nombre }}</td>
-          <td class="py-2 px-4">{{ emp.correo }}</td>
-          <td class="py-2 px-4">{{ emp.edad }}</td>
-          <td class="py-2 px-4">{{ emp.horasTrabajadas }}</td>
-          <td class="py-2 px-4">{{ calcularPago(emp) }}</td>
-        </tr>
-      </tbody>
-    </table>
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-4 py-2">Matrícula</th>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Correo</th>
+            <th class="px-4 py-2">Edad</th>
+            <th class="px-4 py-2">Horas Trabajadas</th>
+            <th class="px-4 py-2">Pago Base (Hasta 40 horas)</th>
+            <th class="px-4 py-2">Pago Horas Extras</th>
+            <th class="px-4 py-2">Total a Pagar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of empleados">
+            <td class="border px-4 py-2">{{ emp.matricula }}</td>
+            <td class="border px-4 py-2">{{ emp.nombre }}</td>
+            <td class="border px-4 py-2">{{ emp.correo }}</td>
+            <td class="border px-4 py-2">{{ emp.edad }}</td>
+            <td class="border px-4 py-2">{{emp.horasTrabajadas}}</td>
+            <td class="border px-4 py-2">{{ emp.pagoBase | currency: 'MXN' }}</td>
+            <td class="border px-4 py-2">{{ emp.pagoHorasExtras | currency: 'MXN' }}</td>
+            <td class="border px-4 py-2">{{ emp.totalPago | currency: 'MXN' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      
+      <div class="mt-8 text-xl font-bold text-center">
+        Total a Pagar a Todos los Empleados: {{ totalAPagar | currency: 'MXN' }}
+      </div>
+    </div>
+
+    <div *ngIf="mostrarFormularioModificacion" class="mt-6">
+      <h3 class="text-xl font-semibold mb-4">Modificar Empleado</h3>
+      <form (ngSubmit)="actualizarEmpleado()" class="grid grid-cols-1 gap-4">
+        <div class="flex flex-col">
+          <label for="matriculaMod" class="mb-1 text-gray-600">Matrícula</label>
+          <input
+            type="text"
+            id="matriculaMod"
+            name="matriculaMod"
+            [(ngModel)]="empleadoSeleccionado.matricula"
+            class="border rounded px-3 py-2"
+            disabled
+          />
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="nombreMod" class="mb-1 text-gray-600">Nombre</label>
+          <input
+            type="text"
+            id="nombreMod"
+            name="nombreMod"
+            [(ngModel)]="empleadoSeleccionado.nombre"
+            class="border rounded px-3 py-2"
+          />
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="correoMod" class="mb-1 text-gray-600">Correo</label>
+          <input
+            type="email"
+            id="correoMod"
+            name="correoMod"
+            [(ngModel)]="empleadoSeleccionado.correo"
+            class="border rounded px-3 py-2"
+          />
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="edadMod" class="mb-1 text-gray-600">Edad</label>
+          <input
+            type="number"
+            id="edadMod"
+            name="edadMod"
+            [(ngModel)]="empleadoSeleccionado.edad"
+            class="border rounded px-3 py-2"
+          />
+        </div>
+  
+        <div class="flex flex-col">
+          <label for="horasMod" class="mb-1 text-gray-600">Horas Trabajadas</label>
+          <input
+            type="number"
+            id="horasMod"
+            name="horasMod"
+            [(ngModel)]="empleadoSeleccionado.horasTrabajadas"
+            class="border rounded px-3 py-2"
+          />
+        </div>
+  
+        <div class="flex justify-between">
+          <button
+            type="submit"
+            class="bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+          >
+            Guardar Cambios
+          </button>
+          <button
+            type="button"
+            (click)="cancelarModificacion()"
+            class="bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
   
   
